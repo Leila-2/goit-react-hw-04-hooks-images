@@ -39,8 +39,9 @@ export default function ImageGallery({ value }) {
       })
 
       .catch((error) => setError(error));
+  }, [value, page])
 
-
+  useEffect(() => {
     if (!page) {
       imgFinder
         .then((imgInfo) => {
@@ -58,8 +59,11 @@ export default function ImageGallery({ value }) {
 
 
     }
-
   }, [value, page])
+
+
+
+
 
   // componentDidUpdate(prevProps, prevState) {
   //   const newValue = this.props.value;
