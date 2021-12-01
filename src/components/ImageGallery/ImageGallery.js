@@ -42,21 +42,25 @@ export default function ImageGallery({ value }) {
 
 
 
-    imgFinder
-      .fetchImg(value, setPage)
-      .then((imgInfo) => {
-        if (imgInfo.length === 0) {
-          setStatus("rejected")
-          setError(new Error())
-          return Promise.reject(new Error(`Нет фото на тему ${value}`));
-        }
-        setImgInfo(prevImg => [...prevImg, ...imgInfo])
-        setStatus("resolved")
 
-      })
+    if (!page) {
+      imgFinder
+        .fetchImg(value, setPage)
+        .then((imgInfo) => {
+          if (imgInfo.length === 0) {
+            setStatus("rejected")
+            setError(new Error())
+            return Promise.reject(new Error(`Нет фото на тему ${value}`));
+          }
+          setImgInfo(prevImg => [...prevImg, ...imgInfo])
+          setStatus("resolved")
 
-      .catch((error) => setError(error));
+        })
 
+        .catch((error) => setError(error));
+
+
+    }
 
   }, [value, page])
 
