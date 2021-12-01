@@ -39,7 +39,7 @@ export default function ImageGallery({ value }) {
       })
 
       .catch((error) => setError(error));
-  }, [value, page])
+  }, [value])
 
   useEffect(() => {
     if (!page) {
@@ -59,7 +59,7 @@ export default function ImageGallery({ value }) {
 
 
     }
-  }, [value, page])
+  }, [page, value])
 
 
 
@@ -69,7 +69,7 @@ export default function ImageGallery({ value }) {
   //   const newValue = this.props.value;
   //   const oldValue = prevProps.value;
   //   const newPage = this.state.page;
-  //   const prevPage = prevState.page;
+  //  const prevPage = prevState.page;
 
   //   if (oldValue !== newValue) {
   //     this.setState({ status: "pending" });
@@ -106,7 +106,7 @@ export default function ImageGallery({ value }) {
   // }
 
   const loadMore = () => {
-    setPage(page + 1);
+    setPage(prev => prev + 1);
   };
 
 
