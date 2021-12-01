@@ -13,12 +13,7 @@ export default function ImageGallery({ value }) {
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1)
   const [status, setStatus] = useState("idle")
-  // state = {
-  //   //imgInfo: null,
-  //   error: null,
-  //   page: 1,
-  //   status: "idle",
-  // };
+
   useEffect(() => {
     if (!value) {
       return
@@ -56,14 +51,8 @@ export default function ImageGallery({ value }) {
         })
 
         .catch((error) => setError(error));
-
-
     }
   }, [page, value])
-
-
-
-
 
   // componentDidUpdate(prevProps, prevState) {
   //   const newValue = this.props.value;
@@ -108,7 +97,6 @@ export default function ImageGallery({ value }) {
   const loadMore = () => {
     setPage(prev => prev + 1);
   };
-
 
 
   if (status === "idle") {
