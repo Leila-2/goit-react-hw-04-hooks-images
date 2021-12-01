@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import imgFinder from "../../servises/api";
 
 export default function ImageGallery({ value }) {
+
   const [imgInfo, setImgInfo] = useState(null)
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1)
@@ -21,7 +22,7 @@ export default function ImageGallery({ value }) {
     setStatus("pending")
 
     imgFinder
-      .fetchImg(value, setPage)
+      .fetchImg(value, page)
 
       .then((imgInfo) => {
         if (imgInfo.length === 0) {
@@ -34,11 +35,13 @@ export default function ImageGallery({ value }) {
       })
 
       .catch((error) => setError(error));
-  }, [value])
+  }, [value, page])
 
   useEffect(() => {
     if (!page) {
+
       imgFinder
+
         .then((imgInfo) => {
           if (imgInfo.length === 0) {
             setStatus("rejected")
@@ -54,45 +57,7 @@ export default function ImageGallery({ value }) {
     }
   }, [page, value])
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const newValue = this.props.value;
-  //   const oldValue = prevProps.value;
-  //   const newPage = this.state.page;
-  //  const prevPage = prevState.page;
 
-  //   if (oldValue !== newValue) {
-  //     this.setState({ status: "pending" });
-  //     imgFinder
-  //       .fetchImg(newValue, newPage)
-
-  //       .then((imgInfo) => {
-  //         if (imgInfo.length === 0) {
-  //           this.setState({ status: "rejected", error: new Error() });
-  //           return Promise.reject(new Error(`Нет фото на тему ${newValue}`));
-  //         }
-  //         this.setState({ imgInfo, status: "resolved" });
-  //       })
-
-  //       .catch((error) => this.setState({ error }));
-  //   }
-
-  //   if (prevPage !== newPage) {
-  //     imgFinder
-  //       .fetchImg(newValue, newPage)
-  //       .then((imgInfo) => {
-  //         if (imgInfo.length === 0) {
-  //           this.setState({ status: "rejected", error: new Error() });
-  //           return Promise.reject(new Error(`Нет фото на тему ${newValue}`));
-  //         }
-  //         this.setState((prevState) => ({
-  //           imgInfo: [...prevState.imgInfo, ...imgInfo],
-  //           status: "resolved",
-  //         }));
-  //       })
-
-  //       .catch((error) => this.setState({ error }));
-  //   }
-  // }
 
   const loadMore = () => {
     setPage(prev => prev + 1);
