@@ -41,11 +41,8 @@ export default function ImageGallery({ value }) {
       .catch((error) => setError(error));
 
 
-
-
     if (!page) {
       imgFinder
-        .fetchImg(value, setPage)
         .then((imgInfo) => {
           if (imgInfo.length === 0) {
             setStatus("rejected")
@@ -105,7 +102,7 @@ export default function ImageGallery({ value }) {
   // }
 
   const loadMore = () => {
-    setPage(prevPage => prevPage + 1);
+    setPage(page + 1);
   };
 
 
