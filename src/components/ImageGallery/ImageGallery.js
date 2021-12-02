@@ -10,19 +10,21 @@ import imgFinder from "../../servises/api";
 
 export default function ImageGallery({ value }) {
 
-  const [imgInfo, setImgInfo] = useState(null)
+  const [imgInfo, setImgInfo] = useState([])
   const [error, setError] = useState(null)
   const [page, setPage] = useState(1)
   const [status, setStatus] = useState("idle")
 
   useEffect(() => {
-    if (!value) {
+    if (!value)
       return
-    }
+
     setStatus("pending")
+    setPage(1)
+    setImgInfo([])
 
     imgFinder
-      .fetchImg(value, page)
+      .fetchImg(value, 1)
 
       .then((imgInfo) => {
         if (imgInfo.length === 0) {
@@ -35,27 +37,26 @@ export default function ImageGallery({ value }) {
       })
 
       .catch((error) => setError(error));
-  }, [value, page])
+  }, [value])
 
   useEffect(() => {
-    if (!page) {
+    if (!value) return
 
-      imgFinder
+    imgFinder.fetchImg(value, page)
+      .then((imgInfo) => {
+        if (imgInfo.length === 0) {
+          setStatus("rejected")
+          setError(new Error())
+          return Promise.reject(new Error(`Нет фото на тему ${value}`));
+        }
+        setImgInfo((prevImg) => [...prevImg, ...imgInfo])
+        setStatus("resolved")
 
-        .then((imgInfo) => {
-          if (imgInfo.length === 0) {
-            setStatus("rejected")
-            setError(new Error())
-            return Promise.reject(new Error(`Нет фото на тему ${value}`));
-          }
-          setImgInfo(prevImg => [...prevImg, ...imgInfo])
-          setStatus("resolved")
+      })
 
-        })
+      .catch((error) => setError(error));
 
-        .catch((error) => setError(error));
-    }
-  }, [page, value])
+  }, [page])
 
 
 
